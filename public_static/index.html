@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat-Box</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/client.js"></script>
+
+    <style>
+        #channel-container{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="login-container">
+    <input type="text" id="username" placeholder="username">
+    <button id="login">Login</button>
+</div>
+
+<div id="channel-container">
+    <h3> Channel</h3>
+    <ul id="msglist">
+    </ul>
+    <input type="text" id="newmsg" placeholder="Your Message">
+    <button id="sendmsg">SEND</button>
+</div>
+</body>
+</html>
