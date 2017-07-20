@@ -19,6 +19,8 @@
 
  app.use('/', express.static(__dirname + "/public_static"));
 
+
+
  io.on('connection', (socket)=>{
   console.log("New client connected");
 
@@ -27,6 +29,8 @@
       console.log('User logged in :' + socket.id);
       users[socket.id] = username;
 
+      socket.join(username);
+
       let join = username + ' Joined';
       socket.emit('logged_in', {username,chats});
       io.emit('join',join);
@@ -34,11 +38,20 @@
      });
 
   socket.on('new_message', (data) => {
-     let chat = users[socket.id] + ':' + data;
-     console.log(chat);
-     chats.push(chat);
-     console.log('msg_recieved');
-     io.emit('recv_message', chat);
+
+      if(data.charAt(0) === '@'){
+          let sendTo = data.substr(1).split(' ')[0];
+          let chat = users[socket.id] + ':' + data;
+
+          io.to(sendTo).emit('recv_message', chat);
+      }
+      else{
+          let chat = users[socket.id] + ':' + data;
+          chats.push(chat);
+          console.log('msg_recieved');
+          io.emit('recv_message', chat);
+      }
+
   });
 
   socket.on('disconnect', () => {
