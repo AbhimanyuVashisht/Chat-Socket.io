@@ -27,8 +27,10 @@
       console.log('User logged in :' + socket.id);
       users[socket.id] = username;
 
-
-      socket.emit('logged_in', {username, chats});
+      let join = username + ' Joined';
+      socket.emit('logged_in', {username,chats});
+      io.emit('join',join);
+      chats.push(join);
      });
 
   socket.on('new_message', (data) => {
@@ -41,9 +43,10 @@
 
   socket.on('disconnect', () => {
         console.log('User logged out :' + socket.id);
+        let chat = users[socket.id] + ': disconnected';
+        chats.push(chat);
+        io.emit('recv_message',chat);
      });
-
-
  });
 
 

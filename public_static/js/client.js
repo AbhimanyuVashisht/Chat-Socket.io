@@ -27,11 +27,15 @@ $(function () {
         channelFrame.show();
         console.log('logged_in');
         let user_login = data.username;
-        msgList.append($(`<li>${user_login}  joined</li>`));
         for(let chat of data.chats){
             msgList.append($(`<li>${chat}</li>`));
         }
     });
+
+    socket.on('join', (data) => {
+        msgList.append($(`<li>${data}</li>`));
+    });
+
 
     sendMsgBtn.click(function () {
         console.log('Message Sent');
